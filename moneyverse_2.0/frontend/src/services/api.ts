@@ -39,6 +39,9 @@ export async function apiRequest<T = any>(
     } catch {
       // ignore
     }
+    if (response.status === 401) {
+      clearAuthToken();
+    }
     throw new Error(errorDetail);
   }
 

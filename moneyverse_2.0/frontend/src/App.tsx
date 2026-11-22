@@ -72,6 +72,14 @@ const AppContent: React.FC = () => {
 
   // Determine active view
   const renderCurrentPage = () => {
+    const protectedPages = ['dashboard', 'mirror', 'voice', 'goals', 'expenses', 'reports', 'profile'];
+    if (!user && protectedPages.includes(currentPage)) {
+      return <LoginPage onNavigate={navigate} />;
+    }
+    if (user && (currentPage === 'landing' || currentPage === 'login' || currentPage === 'signup')) {
+      return <DashboardPage onNavigate={navigate} />;
+    }
+
     switch (currentPage) {
       case 'landing':
         return <LandingPage onNavigate={navigate} />;

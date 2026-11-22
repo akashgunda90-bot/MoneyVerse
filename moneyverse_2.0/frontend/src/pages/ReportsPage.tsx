@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { getAuthToken } from '../services/api';
+import { getAuthToken, apiRequest } from '../services/api';
 import {
   BarChart3,
   Download,
@@ -29,27 +29,24 @@ export const ReportsPage: React.FC = () => {
   const { t } = useLanguage();
   const { summary } = useAuth();
 
-  const handleDownloadCsv = () => {
+  const handleDownloadCsv = async () => {
     const token = getAuthToken();
     if (!token) return;
 
-    fetch('/api/reports/export-csv', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `moneyverse_report_${new Date().toISOString().split('T')[0]}.csv`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      })
-      .catch((err) => alert('CSV Download failed: ' + err.message));
+    try {
+      const textData = await apiRequest<string>('/reports/export-csv');
+      const blob = new Blob([textData], { type: 'text/csv;charset=utf-8;' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `moneyverse_report_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err: any) {
+      alert('CSV Download failed: ' + err.message);
+    }
   };
 
   const comparisonData = [
