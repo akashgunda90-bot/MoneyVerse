@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { apiRequest } from '../services/api';
+import { apiRequest, clearAuthToken } from '../services/api';
 import {
   TrendingUp,
   TrendingDown,
@@ -218,14 +218,38 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
         {/* AI Result or Placeholder */}
         <div className="mt-4">
           {aiError ? (
-            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-start space-x-3">
-              <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-400" />
-              <div>
-                <p className="font-semibold">{t('status_ai_offline')}</p>
-                <p className="text-[11px] text-gray-300 mt-1">{aiError}</p>
-                <p className="text-[10px] text-gray-400 mt-2">
-                  Tip: Ensure the local Ollama service is running using <code className="bg-black/50 px-1 py-0.5 rounded">ollama serve</code> with <code className="bg-black/50 px-1 py-0.5 rounded">qwen2.5:3b</code> installed.
+            <div className={`p-4 rounded-xl text-xs flex items-start space-x-3 ${
+              aiError.toLowerCase().includes('session') || aiError.toLowerCase().includes('log in') || aiError.toLowerCase().includes('401')
+                ? 'bg-rose-500/10 border border-rose-500/30 text-rose-300'
+                : 'bg-amber-500/10 border border-amber-500/30 text-amber-300'
+            }`}>
+              <AlertTriangle className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
+                aiError.toLowerCase().includes('session') || aiError.toLowerCase().includes('log in') || aiError.toLowerCase().includes('401')
+                  ? 'text-rose-400'
+                  : 'text-amber-400'
+              }`} />
+              <div className="flex-1">
+                <p className="font-semibold">
+                  {aiError.toLowerCase().includes('session') || aiError.toLowerCase().includes('log in') || aiError.toLowerCase().includes('401')
+                    ? 'Session Expired'
+                    : t('status_ai_offline')}
                 </p>
+                <p className="text-[11px] text-gray-300 mt-1">{aiError}</p>
+                {aiError.toLowerCase().includes('session') || aiError.toLowerCase().includes('log in') || aiError.toLowerCase().includes('401') ? (
+                  <button
+                    onClick={() => {
+                      clearAuthToken();
+                      onNavigate('login');
+                    }}
+                    className="mt-2.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-medium text-[11px] transition-colors"
+                  >
+                    Sign In Again
+                  </button>
+                ) : (
+                  <p className="text-[10px] text-gray-400 mt-2">
+                    Tip: Add <code className="bg-black/50 px-1 py-0.5 rounded text-amber-200">GEMINI_API_KEY</code> to Vercel Environment Variables for 24/7 cloud AI, or run <code className="bg-black/50 px-1 py-0.5 rounded">ollama serve</code> locally.
+                  </p>
+                )}
               </div>
             </div>
           ) : aiInsights ? (

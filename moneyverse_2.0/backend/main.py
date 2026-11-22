@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
-from database import init_db, get_db, User, IncomeLog, Expense, Goal, AIConversation
+from database import init_db, get_db, User, IncomeLog, Expense, Goal, AIConversation, SQLALCHEMY_DATABASE_URL
 import schemas
 import crud
 import auth
@@ -47,10 +47,15 @@ app.add_middleware(
 # ----------------------------------------------------
 @app.get("/api/health")
 async def health_check():
+    is_postgres = not SQLALCHEMY_DATABASE_URL.startswith("sqlite")
+    ai_provider = "Google Gemini (Active)" if os.getenv("GEMINI_API_KEY") else ("Groq (Active)" if os.getenv("GROQ_API_KEY") else "Ollama / Local Fallback")
     return {
         "status": "healthy",
         "app": "MONEYVERSE 2.0",
         "version": "2.0.0",
+        "database_type": "PostgreSQL (Persistent Cloud)" if is_postgres else "SQLite (Ephemeral Serverless / Local)",
+        "persistent_storage": is_postgres,
+        "ai_provider": ai_provider,
         "timestamp": datetime.utcnow().isoformat()
     }
 
@@ -369,8 +374,8 @@ async def simulate_purchase(
         if verdict_text == "Analysis Ready":
             verdict_text = "SAFE TO BUY" if sim_stats["can_afford"] and sim_stats["risk_level"] in ["Low", "Moderate"] else "WAIT & SAVE"
     else:
-        # Graceful notice if Ollama is not currently active
-        explanation_text = f"Ollama Notice: {ai_res['error']}\n\nMathematical Projection: Remaining balance will be ₹{sim_stats['projected_balance']:,.2f} with risk level: {sim_stats['risk_level']}."
+        # Graceful notice if AI is not currently active
+        explanation_text = f"AI Notice: {ai_res['error']}\n\nMathematical Projection: Remaining balance will be ₹{sim_stats['projected_balance']:,.2f} with risk level: {sim_stats['risk_level']}."
         verdict_text = "SAFE TO BUY" if sim_stats["can_afford"] and sim_stats["risk_level"] in ["Low", "Moderate"] else "AVOID FOR NOW"
 
     return schemas.MirrorSimulationResponse(
@@ -430,7 +435,7 @@ async def voice_chat(
             response_text=f"AI Service Notice: {ai_res['error']}",
             language=lang,
             audio_base64=None,
-            ollama_model=ai.DEFAULT_MODEL,
+            ollama_model=ai.get_active_model(),
             success=False,
             error=ai_res["error"]
         )

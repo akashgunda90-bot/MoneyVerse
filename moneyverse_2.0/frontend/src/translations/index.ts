@@ -37,15 +37,15 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     action_filter: 'Filter Category',
     action_view_all: 'View All',
     status_loading: 'Processing...',
-    status_ai_thinking: 'Ollama AI is analyzing your data...',
-    status_ai_offline: 'Ollama is offline or unreachable',
-    status_ai_ready: 'AI Ready (qwen2.5:3b)',
+    status_ai_thinking: 'AI Advisor is analyzing your finances...',
+    status_ai_offline: 'AI Financial Advisor is currently offline',
+    status_ai_ready: 'AI Financial Advisor Ready',
     msg_saved: 'Saved successfully!',
     msg_deleted: 'Deleted successfully!',
     msg_error: 'An error occurred. Please try again.',
 
     // Landing Page
-    landing_badge: '⚡ Powered by Local Qwen 2.5 AI & Private Sessions',
+    landing_badge: '⚡ AI-Powered Multilingual Personal Finance Platform',
     landing_hero_title: 'Master Your Wealth with Confident Clarity',
     landing_hero_desc: 'An AI-powered fintech platform crafted to guide your savings, simulate high-stakes purchases, track real-time expenses, and converse in your mother tongue.',
     landing_cta_primary: 'Launch MONEYVERSE 2.0',
@@ -57,7 +57,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     landing_feat_bridge_title: 'Goal Bridge',
     landing_feat_bridge_desc: 'Visualize savings targets, track milestones with automated monthly pacing, and celebrate accomplishments.',
     landing_feat_privacy_title: '100% Private & Free',
-    landing_feat_privacy_desc: 'Runs on local SQLite and your own Ollama AI model. No credit cards, no paid API keys required.',
+    landing_feat_privacy_desc: 'Your financial records remain strictly encrypted and private to your account.',
 
     // Auth (Login & Signup)
     auth_welcome_back: 'Welcome Back',
@@ -91,7 +91,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     dash_recent_transactions: 'Recent Transactions',
     dash_no_transactions: 'No transactions recorded yet. Add your first expense in Expense Manager.',
     dash_ai_advisor_title: 'AI Financial Advisor',
-    dash_ai_advisor_subtitle: 'Personalized recommendations generated directly from your live SQLite records by local Ollama (qwen2.5:3b).',
+    dash_ai_advisor_subtitle: 'Personalized recommendations generated directly from your live financial records by AI.',
     dash_ai_placeholder: 'Click "Generate AI Insights" above to get an instant tailored evaluation of your finances.',
 
     // Money Mirror
@@ -225,15 +225,15 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     action_filter: 'ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ',
     action_view_all: 'ಎಲ್ಲವನ್ನೂ ವೀಕ್ಷಿಸಿ',
     status_loading: 'ಪ್ರಕ್ರಿಯೆ ನಡೆಯುತ್ತಿದೆ...',
-    status_ai_thinking: 'Ollama AI ನಿಮ್ಮ ಲೆಕ್ಕವನ್ನು ವಿಶ್ಲೇಷಿಸುತ್ತಿದೆ...',
-    status_ai_offline: 'Ollama ಸಂಪರ್ಕದಲ್ಲಿಲ್ಲ ಅಥವಾ ಆಫ್‌ಲೈನ್ ಆಗಿದೆ',
-    status_ai_ready: 'AI ಸಿದ್ಧವಾಗಿದೆ (qwen2.5:3b)',
+    status_ai_thinking: 'AI ಸಲಹೆಗಾರರು ನಿಮ್ಮ ಲೆಕ್ಕವನ್ನು ವಿಶ್ಲೇಷಿಸುತ್ತಿದ್ದಾರೆ...',
+    status_ai_offline: 'AI ಹಣಕಾಸು ಸಲಹೆಗಾರರು ಸದ್ಯಕ್ಕೆ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದಾರೆ',
+    status_ai_ready: 'AI ಸಲಹೆಗಾರರು ಸಿದ್ಧರಾಗಿದ್ದಾರೆ',
     msg_saved: 'ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ!',
     msg_deleted: 'ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ!',
     msg_error: 'ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.',
 
     // Landing Page
-    landing_badge: '⚡ ಸ್ಥಳೀಯ Qwen 2.5 AI ಮತ್ತು ಖಾಸಗಿ ಸುರಕ್ಷತೆಯೊಂದಿಗೆ ಚಾಲಿತವಾಗಿದೆ',
+    landing_badge: '⚡ AI-ಚಾಲಿತ ಬಹುಭಾಷಾ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ವೇದಿಕೆ',
     landing_hero_title: 'ನಿಮ್ಮ ಹಣಕಾಸಿನ ಮೇಲೆ ನಿಖರವಾದ ಹಿಡಿತ ಸಾಧಿಸಿ',
     landing_hero_desc: 'ನಿಮ್ಮ ಉಳಿತಾಯವನ್ನು ಹೆಚ್ಚಿಸಲು, ದೊಡ್ಡ ಖರೀದಿಗಳನ್ನು ಪರೀಕ್ಷಿಸಲು, ದಿನನಿತ್ಯದ ಖರ್ಚುಗಳನ್ನು ದಾಖಲಿಸಲು ಮತ್ತು ನಿಮ್ಮ ಸ್ವಂತ ಕನ್ನಡ ಭಾಷೆಯಲ್ಲಿ AI ಜೊತೆ ಸಂವಹನ ನಡೆಸಲು ರೂಪಿಸಲಾದ ವೇದಿಕೆ.',
     landing_cta_primary: 'ಮನಿವರ್ಸ್ 2.0 ಗೆ ಪ್ರವೇಶಿಸಿ',
@@ -245,7 +245,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     landing_feat_bridge_title: 'ಗೋಲ್ ಬ್ರಿಡ್ಜ್ (ಗುರಿ ಸೇತು)',
     landing_feat_bridge_desc: 'ನಿಮ್ಮ ಉಳಿತಾಯ ಗುರಿಗಳನ್ನು ನಿಗದಿಪಡಿಸಿ, ಮಾಸಿಕ ಪ್ರಗತಿಯನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ ಮತ್ತು ಗುರಿ ತಲುಪಿ.',
     landing_feat_privacy_title: '100% ಖಾಸಗಿ ಮತ್ತು ಉಚಿತ',
-    landing_feat_privacy_desc: 'ನಿಮ್ಮದೇ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ SQLite ಮತ್ತು Ollama ಮೂಲಕ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ. ಯಾವುದೇ ಶುಲ್ಕವಿಲ್ಲ.',
+    landing_feat_privacy_desc: 'ನಿಮ್ಮ ಹಣಕಾಸಿನ ಮಾಹಿತಿಯು ಸಂಪೂರ್ಣವಾಗಿ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗಿದ್ದು ಸುರಕ್ಷಿತವಾಗಿರುತ್ತದೆ.',
 
     // Auth
     auth_welcome_back: 'ಮತ್ತೆ ಸುಸ್ವಾಗತ',
@@ -279,7 +279,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     dash_recent_transactions: 'ಇತ್ತೀಚಿನ ವಹಿವಾಟುಗಳು',
     dash_no_transactions: 'ಯಾವುದೇ ವಹಿವಾಟು ದಾಖಲಾಗಿಲ್ಲ. ಖರ್ಚು ನಿರ್ವಾಹಕದಲ್ಲಿ ನಿಮ್ಮ ಮೊದಲ ಖರ್ಚನ್ನು ಸೇರಿಸಿ.',
     dash_ai_advisor_title: 'AI ಆರ್ಥಿಕ ಸಲಹೆಗಾರ',
-    dash_ai_advisor_subtitle: 'ನಿಮ್ಮ ನೈಜ ಆದಾಯ ಮತ್ತು ಖರ್ಚಿನ ಆಧಾರದ ಮೇಲೆ Ollama (qwen2.5:3b) ನೀಡುವ ವೈಯಕ್ತಿಕ ಸಲಹೆಗಳು.',
+    dash_ai_advisor_subtitle: 'ನಿಮ್ಮ ನೈಜ ಆದಾಯ ಮತ್ತು ಖರ್ಚಿನ ಆಧಾರದ ಮೇಲೆ AI ನೀಡುವ ವೈಯಕ್ತಿಕ ಸಲಹೆಗಳು.',
     dash_ai_placeholder: 'ನಿಮ್ಮ ಹಣಕಾಸಿನ ಸಮಗ್ರ AI ವಿಶ್ಲೇಷಣೆ ಪಡೆಯಲು ಮೇಲಿನ "AI ಸಲಹೆಗಳನ್ನು ಪಡೆಯಿರಿ" ಬಟನ್ ಒತ್ತಿರಿ.',
 
     // Money Mirror
@@ -413,15 +413,15 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     action_filter: 'श्रेणी चुनें',
     action_view_all: 'सभी देखें',
     status_loading: 'प्रगति पर है...',
-    status_ai_thinking: 'Ollama AI विश्लेषण कर रहा है...',
-    status_ai_offline: 'Ollama ऑफ़लाइन है या जुड़ा नहीं है',
-    status_ai_ready: 'AI तैयार है (qwen2.5:3b)',
+    status_ai_thinking: 'AI सलाहकार आपके वित्तीय डेटा का विश्लेषण कर रहा है...',
+    status_ai_offline: 'AI वित्तीय सलाहकार वर्तमान में ऑफ़लाइन है',
+    status_ai_ready: 'AI सलाहकार तैयार है',
     msg_saved: 'सफलतापूर्वक सहेजा गया!',
     msg_deleted: 'सफलतापूर्वक हटाया गया!',
     msg_error: 'त्रुटि हुई। कृपया पुनः प्रयास करें।',
 
     // Landing Page
-    landing_badge: '⚡ स्थानीय Qwen 2.5 AI और निजी सुरक्षा द्वारा संचालित',
+    landing_badge: '⚡ AI-संचालित बहुभाषी व्यक्तिगत वित्त प्लेटफ़ॉर्म',
     landing_hero_title: 'अपनी संपत्ति पर मजबूत और स्पष्ट नियंत्रण पाएं',
     landing_hero_desc: 'अपनी बचत बढ़ाने, खरीदारी के प्रभाव को पहले से जानने, वास्तविक खर्चों को ट्रैक करने और अपनी मातृभाषा में AI से बात करने का आधुनिक मंच।',
     landing_cta_primary: 'मनीवर्स 2.0 शुरू करें',
@@ -433,7 +433,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     landing_feat_bridge_title: 'गोल ब्रिज',
     landing_feat_bridge_desc: 'बचत के लक्ष्य तय करें, मासिक प्रगति मापें और अपने सपनों को पूरा करें।',
     landing_feat_privacy_title: '100% निजी और निःशुल्क',
-    landing_feat_privacy_desc: 'आपके अपने कंप्यूटर पर SQLite और स्थानीय Ollama मॉडल के साथ चलता है। कोई शुल्क नहीं।',
+    landing_feat_privacy_desc: 'आपका वित्तीय डेटा पूरी तरह से सुरक्षित और केवल आपके खाते के लिए निजी है।',
 
     // Auth
     auth_welcome_back: 'वापसी पर स्वागत है',
@@ -467,7 +467,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     dash_recent_transactions: 'हाल के लेन-देन',
     dash_no_transactions: 'अभी तक कोई लेन-देन दर्ज नहीं है। खर्च प्रबंधक में अपना पहला खर्च जोड़ें।',
     dash_ai_advisor_title: 'AI वित्तीय सलाहकार',
-    dash_ai_advisor_subtitle: 'आपके वास्तविक डेटा के आधार पर स्थानीय Ollama (qwen2.5:3b) द्वारा दिए गए व्यावहारिक सुझाव।',
+    dash_ai_advisor_subtitle: 'आपके वास्तविक वित्तीय रिकॉर्ड के आधार पर AI द्वारा तैयार की गई व्यावहारिक सलाह।',
     dash_ai_placeholder: 'व्यक्तिगत AI सलाह पाने के लिए ऊपर "AI सुझाव प्राप्त करें" बटन दबाएं।',
 
     // Money Mirror
@@ -601,15 +601,15 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     action_filter: 'வகை வடிகட்டி',
     action_view_all: 'அனைத்தையும் காண்க',
     status_loading: 'செயலாக்குகிறது...',
-    status_ai_thinking: 'Ollama AI கணக்கிடுகிறது...',
-    status_ai_offline: 'Ollama ஆஃப்லைனில் உள்ளது',
-    status_ai_ready: 'AI தயார் (qwen2.5:3b)',
+    status_ai_thinking: 'AI நிதி ஆலோசகர் உங்கள் கணக்கீடுகளை பகுப்பாய்வு செய்கிறது...',
+    status_ai_offline: 'AI நிதி ஆலோசகர் தற்போது ஆஃப்லைனில் உள்ளார்',
+    status_ai_ready: 'AI ஆலோசகர் தயார்',
     msg_saved: 'வெற்றிகரமாக சேமிக்கப்பட்டது!',
     msg_deleted: 'வெற்றிகரமாக நீக்கப்பட்டது!',
     msg_error: 'பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்.',
 
     // Landing Page
-    landing_badge: '⚡ பாதுகாப்பான உள்ளூர் Qwen 2.5 AI தளம்',
+    landing_badge: '⚡ AI-இயங்கும் பலமொழி தனிநபர் நிதி தளம்',
     landing_hero_title: 'உங்கள் நிதியை துல்லியமாக நிர்வகியுங்கள்',
     landing_hero_desc: 'சேமிப்பை அதிகரிக்கவும், பெரிய செலவுகளை முன்கூட்டியே கணிக்கவும், உங்கள் தாய்மொழியான தமிழில் AI உடன் உரையாடவும் சிறந்த தளம்.',
     landing_cta_primary: 'மணிவெர்ஸ் 2.0 தொடங்குக',
@@ -621,7 +621,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     landing_feat_bridge_title: 'இலக்கு பாலம்',
     landing_feat_bridge_desc: 'சேமிப்பு இலக்குகளை அமைத்து மாதாந்திர முன்னேற்றத்தை எளிதாகப் பின்பற்றுங்கள்.',
     landing_feat_privacy_title: '100% தனிப்பயன் & இலவசம்',
-    landing_feat_privacy_desc: 'உங்கள் கணினியிலேயே இயங்கும் SQLite மற்றும் Ollama. கட்டணங்கள் ஏதுமில்லை.',
+    landing_feat_privacy_desc: 'உங்கள் நிதித் தரவு பாதுகாப்பாகவும் முற்றிலும் தனிப்பட்டதாகவும் வைக்கப்படுகிறது.',
 
     // Auth
     auth_welcome_back: 'மீண்டும் வருக',
@@ -655,7 +655,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     dash_recent_transactions: 'சமீபத்திய பரிவர்த்தனைகள்',
     dash_no_transactions: 'பரிவர்த்தனைகள் எதுவும் இல்லை. செலவு மேலாளரில் முதல் செலவைச் சேர்க்கவும்.',
     dash_ai_advisor_title: 'AI நிதி ஆலோசகர்',
-    dash_ai_advisor_subtitle: 'உங்கள் நேரடித் தரவுகளின் அடிப்படையில் Ollama (qwen2.5:3b) வழங்கும் தனிப்பயனாக்கப்பட்ட ஆலோசனைகள்.',
+    dash_ai_advisor_subtitle: 'உங்கள் நேரடித் தரவுகளின் அடிப்படையில் AI வழங்கும் தனிப்பயனாக்கப்பட்ட ஆலோசனைகள்.',
     dash_ai_placeholder: 'AI ஆலோசனைகளைப் பெற மேலே உள்ள "AI ஆலோசனைகளைப் பெறுங்கள்" பொத்தானை அழுத்தவும்.',
 
     // Money Mirror
@@ -789,15 +789,15 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     action_filter: 'వర్గం ఎంచుకోండి',
     action_view_all: 'అన్నీ చూడండి',
     status_loading: 'ప్రాసెస్ అవుతోంది...',
-    status_ai_thinking: 'Ollama AI విశ్లేషిస్తోంది...',
-    status_ai_offline: 'Ollama ఆఫ్‌లైన్‌లో ఉంది లేదా కనెక్ట్ కాలేదు',
-    status_ai_ready: 'AI సిద్ధంగా ఉంది (qwen2.5:3b)',
+    status_ai_thinking: 'AI ఆర్థిక సలహాదారు మీ వివరాలను విశ్లేషిస్తోంది...',
+    status_ai_offline: 'AI ఆర్థిక సలహాదారు ప్రస్తుతం ఆఫ్‌లైన్‌లో ఉంది',
+    status_ai_ready: 'AI సలహాదారు సిద్ధంగా ఉంది',
     msg_saved: 'విజయవంతంగా భద్రపరచబడింది!',
     msg_deleted: 'విజయవంతంగా తొలగించబడింది!',
     msg_error: 'లోపం సంభవించింది. దయచేసి మళ్లీ ప్రయత్నించండి.',
 
     // Landing Page
-    landing_badge: '⚡ స్థానిక Qwen 2.5 AI మరియు గోప్యతతో నడుస్తుంది',
+    landing_badge: '⚡ AI-ఆధారిత బహుభాషా వ్యక్తిగత ఆర్థిక వేదిక',
     landing_hero_title: 'మీ సంపదపై స్పష్టమైన అవగాహన మరియు నియంత్రణ',
     landing_hero_desc: 'మీ పొదుపులను పెంచుకోవడానికి, పెద్ద ఖర్చుల ప్రభావాన్ని ముందే తెలుసుకోవడానికి, రోజువారీ ఖర్చులను లెక్కించడానికి మరియు మీ మాతృభాష తెలుగులో AI తో మాట్లాడటానికి రూపొందించబడింది.',
     landing_cta_primary: 'మనీవర్స్ 2.0 లోకి ప్రవేశించండి',
@@ -809,7 +809,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     landing_feat_bridge_title: 'గోల్ బ్రిడ్జ్',
     landing_feat_bridge_desc: 'పొదుపు లక్ష్యాలను నిర్దేశించుకోండి, ప్రగతిని పర్యవేక్షించండి మరియు లక్ష్యాలను సాధించండి.',
     landing_feat_privacy_title: '100% ప్రైవేట్ & ఉచితం',
-    landing_feat_privacy_desc: 'మీ కంప్యూటర్‌లోనే SQLite మరియు Ollama ద్వారా పనిచేస్తుంది. ఎటువంటి రుసుము లేదు.',
+    landing_feat_privacy_desc: 'మీ ఆర్థిక డేటా పూర్తిగా ఎన్‌క్రిప్ట్ చేయబడి ప్రైవేట్‌గా భద్రపరచబడుతుంది.',
 
     // Auth
     auth_welcome_back: 'తిరిగి స్వాగతం',
@@ -843,7 +843,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     dash_recent_transactions: 'ఇటీవలి లావాదేవీలు',
     dash_no_transactions: 'ఇంకా ఎటువంటి లావాదేవీలు నమోదు కాలేదు. ఖర్చు నిర్వాహకుడిలో మొదటి ఖర్చును జోడించండి.',
     dash_ai_advisor_title: 'AI ఆర్థిక సలహాదారు',
-    dash_ai_advisor_subtitle: 'మీ ప్రత్యక్ష డేటా ఆధారంగా Ollama (qwen2.5:3b) అందించే వ్యక్తిగత సలహాలు.',
+    dash_ai_advisor_subtitle: 'మీ ప్రత్యక్ష రికార్డుల ఆధారంగా AI అందించే వ్యక్తిగతీకరించిన సలహాలు.',
     dash_ai_placeholder: 'AI విశ్లేషణను పొందడానికి పైన ఉన్న "AI సలహాలు పొందండి" బటన్‌ను క్లిక్ చేయండి.',
 
     // Money Mirror

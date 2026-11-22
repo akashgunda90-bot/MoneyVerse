@@ -366,7 +366,9 @@ export const MoneyVoicePage: React.FC = () => {
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: `Error connecting to Ollama AI: ${err.message}. Please verify that the local Ollama service is running.`,
+        text: err.message?.toLowerCase().includes('session')
+          ? 'Your session has expired. Please sign in again.'
+          : `AI Service Notice: ${err.message || 'Unable to reach AI Financial Advisor'}.`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -397,7 +399,7 @@ export const MoneyVoicePage: React.FC = () => {
             {language}
           </span>
           <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono border border-purple-500/30">
-            Ollama • qwen2.5:3b
+            AI Advisor • Multilingual
           </span>
         </div>
       </div>
