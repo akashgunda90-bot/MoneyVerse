@@ -3,7 +3,10 @@ from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey, Text
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "moneyverse2.db")
+if os.getenv("VERCEL"):
+    DB_PATH = "/tmp/moneyverse2.db"
+else:
+    DB_PATH = os.path.join(os.path.dirname(__file__), "moneyverse2.db")
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DB_PATH}")
 
 # If Render PostgreSQL is provided, replace postgres:// with postgresql:// for SQLAlchemy 2.0+ compatibility

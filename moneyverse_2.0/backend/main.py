@@ -1,6 +1,12 @@
 import os
+import sys
 import csv
 import io
+
+# Ensure the backend directory is first in sys.path so Vercel serverless imports resolve accurately
+_backend_dir = os.path.dirname(os.path.abspath(__file__))
+if _backend_dir not in sys.path:
+    sys.path.insert(0, _backend_dir)
 from datetime import datetime
 from typing import List, Optional
 from fastapi import FastAPI, Depends, HTTPException, status, Query, Response, UploadFile, File

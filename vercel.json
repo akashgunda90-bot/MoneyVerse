@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "moneyverse_2.0/backend/main.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "moneyverse_2.0/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "moneyverse_2.0/backend/main.py"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "moneyverse_2.0/frontend/assets/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "moneyverse_2.0/frontend/index.html"
+    }
+  ]
+}
