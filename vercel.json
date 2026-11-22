@@ -3,7 +3,16 @@
   "services": {
     "frontend": {
       "root": "moneyverse_2.0/frontend",
-      "framework": "vite"
+      "framework": "vite",
+      "routes": [
+        {
+          "handle": "filesystem"
+        },
+        {
+          "src": "/.*",
+          "dest": "/index.html"
+        }
+      ]
     },
     "backend": {
       "root": "moneyverse_2.0/backend",
@@ -36,31 +45,9 @@
       }
     },
     {
-      "source": "/assets/(.*)",
-      "destination": {
-        "service": "frontend",
-        "path": "/assets/$1"
-      }
-    },
-    {
-      "source": "/favicon.svg",
-      "destination": {
-        "service": "frontend",
-        "path": "/favicon.svg"
-      }
-    },
-    {
-      "source": "/icons.svg",
-      "destination": {
-        "service": "frontend",
-        "path": "/icons.svg"
-      }
-    },
-    {
       "source": "/(.*)",
       "destination": {
-        "service": "frontend",
-        "path": "/index.html"
+        "service": "frontend"
       }
     }
   ]
