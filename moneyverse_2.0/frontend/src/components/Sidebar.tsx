@@ -132,14 +132,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Footer Area: Ollama Status & Logout */}
         <div className="space-y-3 pt-4 border-t border-white/10">
-          {/* Ollama Status Badge */}
+          {/* Ollama / Cloud AI Status Badge */}
           <div className="p-2.5 rounded-lg bg-black/40 border border-white/5 text-[11px] flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Cpu className="w-3.5 h-3.5 text-purple-400" />
-              <span className="text-gray-300 font-mono">qwen2.5:3b</span>
+              <span className="text-gray-300 font-mono truncate max-w-[110px]" title={ollamaStatus?.model || 'AI Model'}>
+                {ollamaStatus?.model || 'qwen2.5:3b'}
+              </span>
             </div>
             {ollamaStatus?.is_connected ? (
-              <span className="flex items-center space-x-1 text-emerald-400 font-medium">
+              <span className="flex items-center space-x-1 text-emerald-400 font-medium" title={ollamaStatus?.message}>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Ready</span>
               </span>

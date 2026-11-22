@@ -24,8 +24,44 @@ LANG_NAME_MAP = {
     "te": "Telugu (తెలుగు)"
 }
 
+def get_active_model() -> str:
+    """Return the name of the currently active model (Cloud AI or local Ollama)."""
+    if os.getenv("GEMINI_API_KEY"):
+        return os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+    if os.getenv("GROQ_API_KEY"):
+        return os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    return os.getenv("OLLAMA_MODEL", DEFAULT_MODEL)
+
 async def check_ollama_status() -> Dict[str, Any]:
-    """Check whether local Ollama instance is reachable and which models are available."""
+    """
+    Check AI readiness:
+    1. If GEMINI_API_KEY is configured -> reports active cloud Gemini.
+    2. If GROQ_API_KEY is configured -> reports active cloud Groq.
+    3. Else checks local/remote Ollama instance.
+    """
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if gemini_key and len(gemini_key.strip()) > 5:
+        model = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+        return {
+            "is_connected": True,
+            "model": model,
+            "available_models": ["gemini-1.5-flash", "gemini-2.0-flash"],
+            "target_model_installed": True,
+            "message": f"Cloud AI ({model}) is active and connected."
+        }
+
+    groq_key = os.getenv("GROQ_API_KEY")
+    if groq_key and len(groq_key.strip()) > 5:
+        model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+        return {
+            "is_connected": True,
+            "model": model,
+            "available_models": [model, "qwen-2.5-32b"],
+            "target_model_installed": True,
+            "message": f"Cloud AI ({model}) is active and connected."
+        }
+
+    # Ollama connectivity check
     try:
         async with httpx.AsyncClient(timeout=2.0) as client:
             resp = await client.get(f"{OLLAMA_BASE_URL}/api/tags")
@@ -42,26 +78,100 @@ async def check_ollama_status() -> Dict[str, Any]:
                 }
     except Exception:
         pass
+
     return {
         "is_connected": False,
         "model": DEFAULT_MODEL,
         "available_models": [],
         "target_model_installed": False,
-        "message": f"Ollama is not reachable at {OLLAMA_BASE_URL}. Ensure 'ollama serve' is running."
+        "message": f"AI service offline. For local use, run 'ollama serve'. For production cloud, add GEMINI_API_KEY or GROQ_API_KEY in Vercel environment variables."
     }
 
-async def query_ollama(prompt: str, system_prompt: str = "", model: str = DEFAULT_MODEL, timeout_seconds: float = 30.0) -> Dict[str, Any]:
-    """Call Ollama /api/generate with pre-flight connection check and clear status error messages."""
+async def query_ai(prompt: str, system_prompt: str = "", model: Optional[str] = None, timeout_seconds: float = 30.0) -> Dict[str, Any]:
+    """Unified AI inference runner: Gemini Cloud -> Groq Cloud -> Ollama."""
+    # 1. Google Gemini API (Free tier, fast & multilingual)
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if gemini_key and len(gemini_key.strip()) > 5:
+        target_model = model or os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{target_model}:generateContent?key={gemini_key.strip()}"
+        full_text = f"{system_prompt}\n\n{prompt}".strip() if system_prompt else prompt
+        payload = {
+            "contents": [
+                {
+                    "parts": [{"text": full_text}]
+                }
+            ],
+            "generationConfig": {
+                "temperature": 0.4,
+                "maxOutputTokens": 800
+            }
+        }
+        try:
+            async with httpx.AsyncClient(timeout=timeout_seconds) as client:
+                resp = await client.post(url, json=payload)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidates = data.get("candidates", [])
+                    if candidates and "content" in candidates[0]:
+                        parts = candidates[0]["content"].get("parts", [])
+                        if parts:
+                            return {"success": True, "response": parts[0].get("text", "").strip(), "error": None}
+                    return {"success": False, "response": "", "error": "Gemini returned empty candidate response."}
+                else:
+                    return {"success": False, "response": "", "error": f"Gemini API error ({resp.status_code}): {resp.text[:200]}"}
+        except httpx.ReadTimeout:
+            return {"success": False, "response": "", "error": "Gemini API request timed out."}
+        except Exception as e:
+            return {"success": False, "response": "", "error": f"Gemini API connection error: {str(e)}"}
+
+    # 2. Groq Cloud API
+    groq_key = os.getenv("GROQ_API_KEY")
+    if groq_key and len(groq_key.strip()) > 5:
+        target_model = model or os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+        url = "https://api.groq.com/openai/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {groq_key.strip()}",
+            "Content-Type": "application/json"
+        }
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+        payload = {
+            "model": target_model,
+            "messages": messages,
+            "temperature": 0.4,
+            "max_tokens": 800
+        }
+        try:
+            async with httpx.AsyncClient(timeout=timeout_seconds) as client:
+                resp = await client.post(url, headers=headers, json=payload)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    choices = data.get("choices", [])
+                    if choices:
+                        content = choices[0].get("message", {}).get("content", "")
+                        return {"success": True, "response": content.strip(), "error": None}
+                    return {"success": False, "response": "", "error": "Groq returned empty response."}
+                else:
+                    return {"success": False, "response": "", "error": f"Groq API error ({resp.status_code}): {resp.text[:200]}"}
+        except httpx.ReadTimeout:
+            return {"success": False, "response": "", "error": "Groq API request timed out."}
+        except Exception as e:
+            return {"success": False, "response": "", "error": f"Groq API connection error: {str(e)}"}
+
+    # 3. Local/Remote Ollama fallback
+    target_model = model or DEFAULT_MODEL
     status_check = await check_ollama_status()
     if not status_check["is_connected"]:
         return {
             "success": False,
             "response": "",
-            "error": "Could not connect to Ollama on http://127.0.0.1:11434. Please verify that the Ollama service is running."
+            "error": "AI service is offline. Please start Ollama locally ('ollama serve') or add GEMINI_API_KEY / GROQ_API_KEY in Vercel Project Settings."
         }
 
     payload = {
-        "model": model,
+        "model": target_model,
         "prompt": prompt,
         "system": system_prompt,
         "stream": False,
@@ -102,6 +212,9 @@ async def query_ollama(prompt: str, system_prompt: str = "", model: str = DEFAUL
             "error": f"Unexpected error while querying AI: {str(e)}"
         }
 
+# Maintain backward compatibility alias
+query_ollama = query_ai
+
 async def generate_financial_insights(financial_summary: Dict[str, Any], language: str = "en") -> Dict[str, Any]:
     """Generate personalized financial insights and recommendations based on real user numbers."""
     sys_prompt = LANGUAGE_PROMPTS.get(language, LANGUAGE_PROMPTS["en"])
@@ -134,7 +247,7 @@ Format your response cleanly:
 Do not use complicated jargon.
 CRITICAL: Respond completely and naturally in {LANG_NAME_MAP.get(language, 'English')}.
 """
-    result = await query_ollama(prompt, system_prompt=sys_prompt)
+    result = await query_ai(prompt, system_prompt=sys_prompt)
     return result
 
 async def generate_mirror_verdict(financial_summary: Dict[str, Any], item_name: str, purchase_amount: float, language: str = "en") -> Dict[str, Any]:
@@ -165,7 +278,7 @@ Provide:
 3. Smart alternative suggestion (e.g. wait 30 days, look for discount, or save ₹X per week).
 CRITICAL: Write your entire reasoning and suggestion in {target_lang}. Keep the bracketed tag [SAFE TO BUY] / [WAIT & SAVE] / [AVOID FOR NOW] intact.
 """
-    result = await query_ollama(prompt, system_prompt=sys_prompt)
+    result = await query_ai(prompt, system_prompt=sys_prompt)
     return result
 
 async def chat_with_advisor(
@@ -198,7 +311,7 @@ async def chat_with_advisor(
         f"INSTRUCTION: You are the Advisor. Reply directly to the user in 2 to 3 practical, helpful sentences. "
         f"CRITICAL: You must reply ONLY in {target_lang}. Do NOT include 'User:' or 'Advisor:' dialogue labels. Just provide your direct helpful answer."
     )
-    result = await query_ollama(full_prompt, system_prompt=sys_prompt)
+    result = await query_ai(full_prompt, system_prompt=sys_prompt)
     return result
 
 def text_to_speech_base64(text: str, language: str = "en") -> Optional[str]:
@@ -243,4 +356,3 @@ def transcribe_audio_bytes(audio_bytes: bytes, language: str = "en") -> Dict[str
             return {"success": True, "text": text, "error": None}
     except Exception as e:
         return {"success": False, "text": "", "error": str(e)}
-
